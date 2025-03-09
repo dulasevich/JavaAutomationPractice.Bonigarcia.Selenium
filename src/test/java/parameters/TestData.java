@@ -14,7 +14,7 @@ import static constants.TestConstants.SpecificTitlesConstants.*;
 import static constants.TestConstants.SpecificTitlesConstants.SLOW_LOGIN_TITLE;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class TestData {
+public final class TestData {
 
     public static Stream<Arguments> linksProvider() {
         return Stream.of(
