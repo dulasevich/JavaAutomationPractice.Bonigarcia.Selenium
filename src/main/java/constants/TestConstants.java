@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class TestConstants {
+public final class TestConstants {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class EndpointsConstants {
