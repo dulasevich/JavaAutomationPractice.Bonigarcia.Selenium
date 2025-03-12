@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import utils.LinksUtil;
 
 import java.util.List;
@@ -24,11 +23,7 @@ public class HomePageTest {
 
     @BeforeEach
     void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // Enable headless mode
-//        options.addArguments("--disable-gpu"); // Disable GPU hardware acceleration (optional)
-//        options.addArguments("--window-size=1920x1080"); // Set window size (optional)
-        driver = new ChromeDriver(options);
+        driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get(BASE_URL);
     }
