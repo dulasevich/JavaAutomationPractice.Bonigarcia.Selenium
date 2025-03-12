@@ -9,24 +9,26 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import utils.LinksUtil;
 
 import java.util.List;
 
-import static constants.TestConstants.ChapterNamesConstants.*;
-import static constants.TestConstants.CommonLabelsTitlesConstants.*;
-import static constants.TestConstants.EndpointsConstants.*;
-import static utils.XpathUtil.FRAME_HEADER_XPATH;
-import static utils.XpathUtil.TITLE_XPATH;
+import static constants.TestConstants.*;
 
 public class HomePageTest {
 
     private static final String BASE_URL = "https://bonigarcia.dev/selenium-webdriver-java/";
+    private static final String FRAME_TITLE = "Frames";
     private WebDriver driver;
 
     @BeforeEach
     void setUp() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless"); // Enable headless mode
+//        options.addArguments("--disable-gpu"); // Disable GPU hardware acceleration (optional)
+//        options.addArguments("--window-size=1920x1080"); // Set window size (optional)
+        driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.get(BASE_URL);
     }
@@ -46,21 +48,12 @@ public class HomePageTest {
         List<String> thirdPartyLinks = LinksUtil.getChapterLinks(driver, THIRD_PARTY_INTEGRATIONS);
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals(List.of(WEB_FORM, NAVIGATION, DROPDOWN_MENU, MOUSE_OVER,
-                        DRAG_DROP, DRAW_CANVAS, LOADING_IMAGES, SLOW_CALCULATOR), fundamentalsLinks,
-                        "Chapter 3. WebDriver Fundamentals has incorrect links"),
-                () -> Assertions.assertEquals(List.of(LONG_PAGE, INFINITE_SCROLL, SHADOW_DOM,
-                        COOKIES, FRAMES, IFRAMES, DIALOG_BOXES, WEB_STORAGE), browserAgnosticLinks,
-                        "Chapter 4. Browser-Agnostic Features has incorrect links"),
-                () -> Assertions.assertEquals(List.of(GEOLOCATION, NOTIFICATIONS, GET_USER_MEDIA,
-                        MULTI_LANGUAGE, CONSOLE_LOGS), browserSpecificLinks,
-                        "Chapter 5. Browser-Specific Manipulation has incorrect links"),
-                () -> Assertions.assertEquals(List.of(LOGIN_FORM, SLOW_LOGIN), pomLinks,
-                        "Chapter 7. The Page Object Model (POM) has incorrect links"),
-                () -> Assertions.assertEquals(List.of(RANDOM_CALCULATOR), testingFrameworksLinks,
-                        "Chapter 8. Testing Framework Specifics has incorrect links"),
-                () -> Assertions.assertEquals(List.of(DOWNLOAD_FILES, AB_TESTING, DATA_TYPES), thirdPartyLinks,
-                        "Chapter 9. Third-Party Integrations has incorrect links")
+                () -> Assertions.assertEquals(WEB_DRIVER_FUNDAMENTALS_LINKS, fundamentalsLinks, "Chapter 3. WebDriver Fundamentals has incorrect links"),
+                () -> Assertions.assertEquals(BROWSER_AGNOSTIC_LINKS, browserAgnosticLinks, "Chapter 4. Browser-Agnostic Features has incorrect links"),
+                () -> Assertions.assertEquals(BROWSER_SPECIFIC_LINKS, browserSpecificLinks, "Chapter 5. Browser-Specific Manipulation has incorrect links"),
+                () -> Assertions.assertEquals(POM_LINKS, pomLinks, "Chapter 7. The Page Object Model (POM) has incorrect links"),
+                () -> Assertions.assertEquals(TESTING_FRAMEWORK_LINKS, testingFrameworksLinks, "Chapter 8. Testing Framework Specifics has incorrect links"),
+                () -> Assertions.assertEquals(THIRD_PARTY_LINKS, thirdPartyLinks, "Chapter 9. Third-Party Integrations has incorrect links")
         );
     }
 
@@ -68,7 +61,7 @@ public class HomePageTest {
     @MethodSource("parameters.TestData#linksProvider")
     void linksTest(String xPath, String endpoint, String title) {
         driver.findElement(By.xpath(xPath)).click();
-        if (endpoint.equals(FRAMES_ENDPOINT)) {
+        if (title.equals(FRAME_TITLE)) {
             driver.switchTo().frame(driver.findElement(By.xpath(FRAME_HEADER_XPATH)));
         }
         Assertions.assertEquals(title, driver.findElement(By.xpath(TITLE_XPATH)).getText(), "Incorrect title");
