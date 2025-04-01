@@ -10,12 +10,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.projectlombok:lombok:1.18.22'
-    implementation 'org.seleniumhq.selenium:selenium-java:4.29.0'
-
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.29.0'
+    testImplementation 'commons-io:commons-io:2.8.0'
 }
 
 test {
