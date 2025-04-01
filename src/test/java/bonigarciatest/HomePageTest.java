@@ -59,6 +59,7 @@ public class HomePageTest {
         if (title.equals(FRAME_TITLE)) {
             driver.switchTo().frame(driver.findElement(By.xpath(FRAME_HEADER_XPATH)));
         }
+
         Assertions.assertEquals(title, driver.findElement(By.xpath(TITLE_XPATH)).getText(), "Incorrect title");
         Assertions.assertEquals(BASE_URL + endpoint, driver.getCurrentUrl(), "Incorrect page opens");
     }
